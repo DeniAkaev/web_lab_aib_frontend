@@ -1,16 +1,16 @@
-n = int(input())
+import heapq
 
-X = list(map(lambda x: int(x), input().split(' ')))
-medians = []
+def find(n, arr):
+    max, min, result = [], [], 0
+    for i in range(n):
+        heapq.heappush(max, -arr[i])  
+        heapq.heappush(min, -heapq.heappop(max))
+        
+        if len(min) > len(max):
+            heapq.heappush(max, -heapq.heappop(min))  
+        result -= max[0]  
 
-for i in len(X):
-    X[:i+1]= sorted(X[:i+1])
+    return result
 
-    median = X[(i + 1) // 2] if (i + 1) % 2 == 1 else X[i // 2]
-
-    medians.append(median)
-
-sum = 0
-for median in medians:
-    sum += median
-print(sum)
+n, arr =int(input()), list(map(int, input().split()))
+print(find(n, arr))
